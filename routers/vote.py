@@ -19,10 +19,12 @@ def vote(
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Vote not found"
         )
+
     vote_query = db.query(models.Vote).filter(
         models.Vote.post_id == vote.post_id, models.Vote.user_id == current_user.id
     )
     found_vote = vote_query.first()
+
     if vote.direction == 1:
         if found_vote:
             raise HTTPException(
