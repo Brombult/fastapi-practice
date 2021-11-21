@@ -12,6 +12,13 @@ router = APIRouter(prefix="/users", tags=["Users"])
 def create_users(user: UserCreate, db: Session = Depends(database.get_db)):
     user.password = utils.hash_password(user.password)
 
+    user_exists = db.query(models.User).filter(models.User.email == user.email).first()
+    if user_exists:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=f"User with email '{user.email}' already exists",
+        )
+
     new_user = models.User(**user.dict())
     db.add(new_user)
     db.commit()

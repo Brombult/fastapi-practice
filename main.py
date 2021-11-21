@@ -1,6 +1,6 @@
-import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import RedirectResponse
 
 from routers import auth, post, user, vote
 
@@ -22,4 +22,4 @@ app.add_middleware(
 
 @app.get("/")
 def index():
-    return {"message": "Hello World"}
+    return RedirectResponse("/docs")
