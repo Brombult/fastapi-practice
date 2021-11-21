@@ -21,10 +21,10 @@ def login(
     user = db.query(models.User).filter(models.User.email == creds.username).first()
 
     if not user:
-        return user_not_found_exception
+        raise user_not_found_exception
 
     if not utils.verify_password(creds.password, user.password):
-        return user_not_found_exception
+        raise user_not_found_exception
 
     access_token = oath.create_access_token({"user_id": user.id})
 
