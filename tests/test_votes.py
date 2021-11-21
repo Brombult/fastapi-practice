@@ -37,3 +37,12 @@ def test_vote_for_already_voted_post(authorized_client, create_posts, vote_for_p
 def test_vote_for_non_existent_post(authorized_client):
     resp = authorized_client.post(VOTE, json={"post_id": 9999999999999, "direction": 1})
     assert resp.status_code == status.HTTP_404_NOT_FOUND
+
+    resp = authorized_client.post(VOTE, json={"post_id": 9999999999999, "direction": 0})
+    assert resp.status_code == status.HTTP_404_NOT_FOUND
+
+
+def test_vote_unauthorized_client(client, create_posts):
+    posts = create_posts()
+    resp = client.post(VOTE, json={"post_id": posts[0].id, "direction": 1})
+    assert resp.status_code == status.HTTP_401_UNAUTHORIZED
