@@ -10,6 +10,7 @@ sqlalchemy = "1.4.23"
 passlib = {extras = ["bcrypt"], version = "*"}
 python-jose = {extras = ["cryptograpthy"], version = "*"}
 alembic = "*"
+pytest = "*"
 
 [dev-packages]
 black = "*"
